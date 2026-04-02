@@ -17,12 +17,96 @@
 <body>
     <div id="gui-container"></div>
     <div><script type="module" src="./script.js"></script></div>
+
+    <!-- Panel info planeta -->
     <div id="planetInfo" class="planet-info">
         <div class="planet-info-content">
             <span class="close-btn" onclick="closeInfo()">&times;</span>
             <h2 id="planetName"></h2>
             <p id="planetDetails"></p>
+            <div id="planetExtraButtons" style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;"></div>
         </div>
     </div>
+
+    <!-- Panel estructura interna -->
+    <div id="interiorPanel" class="side-panel" style="display:none;">
+        <div class="panel-content">
+            <span class="close-btn" onclick="document.getElementById('interiorPanel').style.display='none'">&times;</span>
+            <h2 id="interiorTitle">Estructura Interna</h2>
+            <canvas id="interiorCanvas" width="260" height="260"></canvas>
+            <p id="interiorDesc" style="margin-top:8px; font-size:13px; line-height:1.5;"></p>
+        </div>
+    </div>
+
+    <!-- Panel espectroscopía -->
+    <div id="spectrumPanel" class="side-panel" style="display:none;">
+        <div class="panel-content">
+            <span class="close-btn" onclick="document.getElementById('spectrumPanel').style.display='none'">&times;</span>
+            <h2 id="spectrumTitle">Composición Atmosférica</h2>
+            <canvas id="spectrumCanvas" width="260" height="200"></canvas>
+            <p id="spectrumDesc" style="margin-top:8px; font-size:12px; line-height:1.4;"></p>
+        </div>
+    </div>
+
+    <!-- Panel gravedad -->
+    <div id="gravityPanel" class="side-panel" style="display:none;">
+        <div class="panel-content">
+            <span class="close-btn" onclick="document.getElementById('gravityPanel').style.display='none'">&times;</span>
+            <h2>Comparador de Gravedad</h2>
+            <p style="font-size:12px; color:#adf;">Suelta un objeto de 1 kg desde 10 m de altura</p>
+            <canvas id="gravityCanvas" width="260" height="220"></canvas>
+            <p id="gravityResult" style="font-size:12px; margin-top:6px;"></p>
+        </div>
+    </div>
+
+    <!-- Panel inclinación axial -->
+    <div id="axialPanel" class="side-panel" style="display:none;">
+        <div class="panel-content">
+            <span class="close-btn" onclick="document.getElementById('axialPanel').style.display='none'">&times;</span>
+            <h2>Inclinación Axial y Estaciones</h2>
+            <canvas id="axialCanvas" width="260" height="200"></canvas>
+            <p style="font-size:12px; margin-top:6px; line-height:1.5;">La inclinación de <b>23,5°</b> de la Tierra hace que cada hemisferio reciba distinta cantidad de luz solar a lo largo del año, generando las cuatro estaciones.</p>
+        </div>
+    </div>
+
+    <!-- Panel sondas espaciales -->
+    <div id="probesPanel" class="side-panel" style="display:none;">
+        <div class="panel-content">
+            <span class="close-btn" onclick="document.getElementById('probesPanel').style.display='none'">&times;</span>
+            <h2>Línea Temporal de Sondas</h2>
+            <div style="margin-bottom:8px;">
+                <label style="color:#adf; font-size:12px;">Año: <span id="probeYearLabel">1977</span></label><br>
+                <input type="range" id="probeYear" min="1959" max="2025" value="1977" style="width:100%;" oninput="updateProbes(this.value)">
+            </div>
+            <div id="probesList" style="font-size:12px; line-height:1.8;"></div>
+        </div>
+    </div>
+
+    <!-- Panel observación nocturna -->
+    <div id="nightPanel" class="side-panel" style="display:none;">
+        <div class="panel-content">
+            <span class="close-btn" onclick="document.getElementById('nightPanel').style.display='none'">&times;</span>
+            <h2>Guía de Observación Nocturna</h2>
+            <p style="font-size:12px; color:#adf;">Basado en tu ubicación actual</p>
+            <div id="nightResult" style="font-size:12px; line-height:1.8; margin-top:8px;"></div>
+            <button onclick="requestNightGuide()" style="margin-top:10px; padding:6px 14px; background:#014; border:1px solid #0f8; color:#0f8; cursor:pointer; border-radius:4px;">📍 Usar mi ubicación</button>
+        </div>
+    </div>
+
+    <!-- Barra de herramientas lateral izquierda -->
+    <div id="toolBar">
+        <button class="tool-btn" title="Zona Habitable" onclick="toggleLayer('habitableZone')">🌿</button>
+        <button class="tool-btn" title="Magnetosferas" onclick="toggleLayer('magnetospheres')">🧲</button>
+        <button class="tool-btn" title="Cometas" onclick="toggleLayer('comets')">☄️</button>
+        <button class="tool-btn" title="Cinturón de Kuiper" onclick="toggleLayer('kuiper')">💫</button>
+        <button class="tool-btn" title="Nube de Oort" onclick="toggleLayer('oort')">🌌</button>
+        <button class="tool-btn" title="Inclinación Axial" onclick="showAxialPanel()">🌀</button>
+        <button class="tool-btn" title="Sondas Espaciales" onclick="document.getElementById('probesPanel').style.display='block'">🚀</button>
+        <button class="tool-btn" title="Comparador de Gravedad" onclick="showGravityPanel()">⚖️</button>
+        <button class="tool-btn" title="Observación Nocturna" onclick="document.getElementById('nightPanel').style.display='block'">🔭</button>
+    </div>
+
+    <!-- Toast informativo -->
+    <div id="infoToast"></div>
 </body>
 </html>
